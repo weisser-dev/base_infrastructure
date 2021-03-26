@@ -33,12 +33,12 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
         with:
-          source: "./nginx/"
+          source: "./"
           target: "~/"
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: init letsencrypt && run docker-compose
+      - name: run docker-compose
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -46,9 +46,6 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/nginx &&
-            chmod +x init-letsencrypt.sh &&
+            cd ~/nginx-ssl &&
             sudo docker-compose up
-
-  # #            yes | sudo ./init-letsencrypt.sh &&
 

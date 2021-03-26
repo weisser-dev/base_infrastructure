@@ -18,8 +18,8 @@ env:
   IMAGE_NAME: image
 
 jobs:
-  # Run tests.
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+
+  runs-on: ubuntu-latest
   do-stuff-remote:
     steps:
       - uses: actions/checkout@v2

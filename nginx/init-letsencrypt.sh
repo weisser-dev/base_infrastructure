@@ -34,7 +34,7 @@ docker-compose run --rm --entrypoint "\
   openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 7\
     -keyout '$path/privkey.pem' \
     -out '$path/fullchain.pem' \
-    -subj '/CN=weisser.dev'" certbot
+    -subj '/CN=$domains'" certbot
 echo
 
 

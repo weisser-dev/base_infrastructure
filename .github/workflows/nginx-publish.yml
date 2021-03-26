@@ -19,7 +19,7 @@ env:
 
 jobs:
   # This workflow contains a single job called "build"
-  install_docker:
+  copy_files:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -37,6 +37,9 @@ jobs:
           target: "/opt/nginx"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
+  run init-letsencrypt:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -50,5 +53,22 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             cd /opt/nginx
-            ./init-letsencrypt.sh
+            docker-compose up
+
+  run docker-compose up:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Executing remote command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /opt/nginx
             docker-compose up

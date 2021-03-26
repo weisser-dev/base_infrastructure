@@ -19,13 +19,13 @@ env:
 
 jobs:
   # This workflow contains a single job called "build"
-  copy_files:
+  nginx:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
-      - name: Copy repository contents via scp
+      - name: copy nginx folder
         uses: appleboy/scp-action@master
         env:
           HOST: ${{ secrets.HOST }}
@@ -36,15 +36,9 @@ jobs:
           source: "./nginx"
           target: "/opt/nginx"
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-  init_letsencrypt:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: Executing remote command
+      - name: init letsencrypt
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -53,16 +47,9 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             cd /opt/nginx
-            docker-compose up
+            sh ./init-letsencrypt.sh
 
-  docker_compose_up:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Executing remote command
+      - name: docker compose up
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}

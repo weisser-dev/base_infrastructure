@@ -47,5 +47,6 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/nginx
-            sh init-letsencrypt.sh
+            chmod +x init-letsencrypt.sh
+            ./init-letsencrypt.sh
             cd docker-compose up

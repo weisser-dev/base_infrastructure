@@ -46,6 +46,8 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/nginx-ssl &&
+            cd ~/nginx &&
+            chmod +x init-letsencrypt.sh &&
+            sudo ./init-letsencrypt.sh &&
             sudo docker-compose up
 

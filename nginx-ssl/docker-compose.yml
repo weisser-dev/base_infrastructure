@@ -14,7 +14,7 @@ services:
 
     certbot:
         image: certbot/certbot:latest
-        command: certonly --webroot --webroot-path=/var/www/certbot --email erikweisser@gmail.com --agree-tos --no-eff-email -d weisser.dev -d www.weisser.dev
+        command: certonly --webroot --webroot-path=/var/www/certbot --email erikweisser@gmail.com --agree-tos --no-eff-email -d weisser.dev
         volumes:
             - ./certbot/conf:/etc/letsencrypt
             - ./certbot/logs:/var/log/letsencrypt

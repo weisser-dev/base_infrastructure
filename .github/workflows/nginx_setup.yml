@@ -48,5 +48,5 @@ jobs:
           script: |
             cd ~/nginx &&
             chmod +x init-letsencrypt.sh &&
-            yes | sudo ./init-letsencrypt.sh &&
-            docker-compose up
+#            yes | sudo ./init-letsencrypt.sh &&
+            sudo docker-compose up

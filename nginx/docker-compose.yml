@@ -11,6 +11,7 @@ services:
       - ./data/certbot/www:/var/www/certbot
     ports:
       - "8080:8080"
+      - "3000-3050:3000:3050"
       - "443:443"
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:

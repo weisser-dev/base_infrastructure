@@ -46,7 +46,7 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             sudo docker network create nginx_network || true
-      - name: init letsencrypt
+      - name: init letsencrypt && run docker-compose
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -56,16 +56,7 @@ jobs:
           script: |
             cd ~/nginx &&
             chmod +x init-letsencrypt.sh &&
-            sudo ./init-letsencrypt.sh
-      - name: run docker-compose
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSH_KEY }}
-          script: |
-            cd ~/nginx &&
+            sudo ./init-letsencrypt.sh && 
             sudo docker-compose up -d
   mysql:
     # The type of runner that the job will run on

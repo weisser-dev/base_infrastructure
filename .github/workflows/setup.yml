@@ -157,19 +157,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker run \\
-            --name valheim-server \\
-            --cap-add=sys_nice \\
-            --stop-timeout 120 \\
-            -p 2456-2457:2456-2457/udp \\
-            -v ~/valheim-server/config:/config \\
-            -v ~/valheim-server/data:/opt/valheim \\
-            -e SERVER_NAME="Valheim Mittelerde" \\
-            -e WORLD_NAME="Mittelerde" \\
-            -e SERVER_PASS="mellon" \\
-            -e VALHEIM_PLUS="true" \\
-            -e VPCFG_Server_enabled=true -e VPCFG_Server_enforceMod=false -e VPCFG_Server_dataRate=500 -e VPCFG_SERVER_maxPlayers=100 \\
-            lloesche/valheim-server
+            sudo docker run --name valheim-server --cap-add=sys_nice --stop-timeout 120 -p 2456-2457:2456-2457/udp -v ~/valheim-server/config:/config -v ~/valheim-server/data:/opt/valheim -e SERVER_NAME="Valheim Mittelerde" -e WORLD_NAME="Mittelerde" -e SERVER_PASS="mellon" -e VALHEIM_PLUS="true" -e VPCFG_Server_enabled=true -e VPCFG_Server_enforceMod=false -e VPCFG_Server_dataRate=500 -e VPCFG_SERVER_maxPlayers=100 lloesche/valheim-server
 
 
 

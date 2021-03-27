@@ -114,7 +114,7 @@ function reload_nginx {
 ###################################################################
 
 
-domains_list=(weisser.dev hochzeitsdj-oberfranken.de)
+domains_list=(weisser.dev hochzeitsdj-oberfranken.de whit-e.com)
 rsa_key_size=4096
 data_path="/home/example/certbot"
 email="erikweisser@gmail.com" # Adding a valid address is strongly recommended

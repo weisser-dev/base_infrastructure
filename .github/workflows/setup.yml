@@ -143,17 +143,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker docker run -d \
-            --name valheim-server \
-            --cap-add=sys_nice \
-            --stop-timeout 120 \
-            -p 2456-2457:2456-2457/udp \
-            -v $HOME/valheim-server/config:/config \
-            -v $HOME/valheim-server/data:/opt/valheim \
-            -e SERVER_NAME="Valheim Mittelerde" \
-            -e WORLD_NAME="Mittelerde" \
-            -e SERVER_PASS="mellon" \
-            lloesche/valheim-server
+            sudo docker docker run -d --name valheim-server --cap-add=sys_nice --stop-timeout 120 -p 2456-2457:2456-2457/udp -v ~/valheim-server/config:/config -v ~/valheim-server/data:/opt/valheim -e SERVER_NAME="Valheim Mittelerde" -e WORLD_NAME="Mittelerde" -e SERVER_PASS="mellon" lloesche/valheim-server
 
 
 

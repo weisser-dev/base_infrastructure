@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: copy nginx folder
+      - name: copy mysql folder
         uses: appleboy/scp-action@master
         env:
           HOST: ${{ secrets.HOST }}
@@ -82,7 +82,6 @@ jobs:
         with:
           source: "./mysql"
           target: "~/mysql"
-
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: create mysql docker network
         uses: appleboy/ssh-action@master

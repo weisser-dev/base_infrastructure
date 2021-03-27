@@ -56,7 +56,7 @@ jobs:
           script: |
             cd ~/nginx &&
             chmod +x init-letsencrypt.sh &&
-            sudo ./init-letsencrypt.sh &&
+            sudo ./init-letsencrypt.sh 
       - name: run docker-compose
         uses: appleboy/ssh-action@master
         with:
@@ -66,5 +66,44 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/nginx &&
+            sudo docker-compose up -d
+  mysql:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: copy nginx folder
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSH_KEY }}
+        with:
+          source: "./mysql"
+          target: "~/mysql"
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: create mysql docker network
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSH_KEY }}
+          script: |
+            sudo docker network create mysql_network || true
+      - name: run docker-compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSH_KEY }}
+          env:
+            MYSQL_PW:  ${{ secrets.MYSQL_PASSWORD }}
+            MYSQL_DATABASE:  ${{ secrets.MYSQL_DATABASE }}
+          script: |
+            cd ~/mysql &&
             sudo docker-compose up -d
 

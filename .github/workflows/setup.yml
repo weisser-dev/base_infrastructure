@@ -56,7 +56,7 @@ jobs:
           script: |
             cd ~/nginx &&
             chmod +x init-letsencrypt.sh &&
-            sudo ./init-letsencrypt.sh 
+            sudo ./init-letsencrypt.sh
       - name: run docker-compose
         uses: appleboy/ssh-action@master
         with:

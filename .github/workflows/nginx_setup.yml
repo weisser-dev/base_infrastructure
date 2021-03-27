@@ -45,7 +45,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker network create nginx_network
+            sudo docker network create nginx_network || true
       - name: init letsencrypt
         uses: appleboy/ssh-action@master
         with:

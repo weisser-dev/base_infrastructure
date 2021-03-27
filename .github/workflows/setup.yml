@@ -135,7 +135,7 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             mkdir -p ~/valheim-server/config/worlds ~/valheim-server/data
-      - name: create server and run teamspeak
+      - name: run valheim server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -143,7 +143,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker docker run -d --name valheim-server --cap-add=sys_nice --stop-timeout 120 -p 2456-2457:2456-2457/udp -v ~/valheim-server/config:/config -v ~/valheim-server/data:/opt/valheim -e SERVER_NAME="Valheim Mittelerde" -e WORLD_NAME="Mittelerde" -e SERVER_PASS="mellon" lloesche/valheim-server
+            sudo docker run --name valheim-server --cap-add=sys_nice --stop-timeout 120 -p 2456-2457:2456-2457/udp -v ~/valheim-server/config:/config -v ~/valheim-server/data:/opt/valheim -e SERVER_NAME="Valheim Mittelerde" -e WORLD_NAME="Mittelerde" -e SERVER_PASS="mellon" lloesche/valheim-server
 
 
 

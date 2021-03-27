@@ -48,7 +48,7 @@ for domain in ${domains[@]}; do
     openssl req -x509 -nodes -newkey rsa:2048 -days 1\
       -keyout '$path/privkey.pem' \
       -out '$path/fullchain.pem' \
-      -subj '/CN=localhost'" certbot
+      -subj '/CN=$domain'" certbot
   echo
 done
 

@@ -53,9 +53,9 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
-          ENVS:
-            MYSQL_PW:  ${{ secrets.DB.PW }}
-            MYSQL_DATABASE:  ${{ secrets.DB.DATABASE }}
+          ENV:
+            MYSQL_PW:  ${{ secrets.MYSQL_PASSWORD }}
+            MYSQL_DATABASE:  ${{ secrets.MYSQL_DATABASE }}
           script: |
             cd ~/mysql &&
             sudo docker-compose up -d

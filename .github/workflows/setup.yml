@@ -113,6 +113,7 @@ jobs:
             sudo docker start teamspeak
   valheim:
     # The type of runner that the job will run on
+    # doc for valheim server: https://github.com/lloesche/valheim-server-docker
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -135,6 +136,19 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             mkdir -p ~/valheim-server/config/worlds ~/valheim-server/data
+      - name: install valheim plus (latest)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/valheim-server/config &&
+            mkdir -p valheimplus &&
+            cd valheimplus &&
+            wget https://github.com/valheimPlus/ValheimPlus/releases/download/$(curl --silent "https://api.github.com/repos/valheimPlus/valheimPlus/tags" | jq -r '.[0].name')/UnixServer.tar.gz &&
+            tar zxf UnixServer.tar.gz
       - name: run valheim server
         uses: appleboy/ssh-action@master
         with:
@@ -143,7 +157,19 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker run --name valheim-server --cap-add=sys_nice --stop-timeout 120 -p 2456-2457:2456-2457/udp -v ~/valheim-server/config:/config -v ~/valheim-server/data:/opt/valheim -e SERVER_NAME="Valheim Mittelerde" -e WORLD_NAME="Mittelerde" -e SERVER_PASS="mellon" lloesche/valheim-server
+            sudo docker run \
+            --name valheim-server \
+            --cap-add=sys_nice \
+            --stop-timeout 120 \
+            -p 2456-2457:2456-2457/udp \
+            -v ~/valheim-server/config:/config \
+            -v ~/valheim-server/data:/opt/valheim \
+            -e SERVER_NAME="Valheim Mittelerde" \
+            -e WORLD_NAME="Mittelerde" \
+            -e SERVER_PASS="mellon" \
+            -e VALHEIM_PLUS="true" \
+            -e VPCFG_Server_enabled=true -e VPCFG_Server_enforceMod=false -e VPCFG_Server_dataRate=500 -e VPCFG_SERVER_maxPlayers=100
+            lloesche/valheim-server
 
 
 

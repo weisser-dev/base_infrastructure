@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: copy nginx folder
+      - name: checkout sources
         uses: appleboy/scp-action@master
         env:
           HOST: ${{ secrets.HOST }}
@@ -54,16 +54,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: copy mysql folder
-        uses: appleboy/scp-action@master
-        env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSH_KEY }}
-        with:
-          source: "./mysql"
-          target: "~/mysql"
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: create mysql docker network
         uses: appleboy/ssh-action@master
@@ -117,16 +107,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: copy map folder
-        uses: appleboy/scp-action@master
-        env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSH_KEY }}
-        with:
-          source: "./valheim/map"
-          target: "~/valheim-server/base_map"
       - name: move map if not exists
         uses: appleboy/ssh-action@master
         with:
@@ -135,7 +115,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            mv -vn ~/valheim-server/map/ ~/valheim-server/config/worlds/
+            mv -vn ~/valheim/map/ ~/valheim-server/config/worlds/
       - name: create valheim folder
         uses: appleboy/ssh-action@master
         with:

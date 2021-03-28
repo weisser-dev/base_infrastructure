@@ -111,16 +111,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: copy_files
     steps:
-      - uses: actions/checkout@v2
-      - name: move map if not exists
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSH_KEY }}
-          script: |
-            mv -vn ~/valheim/map/* ~/valheim-server/config/worlds/
       - name: create valheim folder
         uses: appleboy/ssh-action@master
         with:
@@ -130,6 +120,16 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             mkdir -p ~/valheim-server/config/worlds ~/valheim-server/data
+      - uses: actions/checkout@v2
+      - name: move map if not exists
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSH_KEY }}
+          script: |
+            mv -vn ~/valheim-server/map/* ~/valheim-server/config/worlds/
       #- name: install valheim plus (latest)
       #  uses: appleboy/ssh-action@master
       #  with:

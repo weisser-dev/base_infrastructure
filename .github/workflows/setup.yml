@@ -104,7 +104,7 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
           script: |
             sudo docker create -p 9987:9987/udp -p 10011:10011 -p 30033:30033 -e TS3SERVER_LICENSE=accept --restart always --name teamspeak -v ~/teamspeak/:/var/ts3server/ teamspeak
-            sudo docker start teamspeak
+            sudo docker restart teamspeak
   valheim:
     # The type of runner that the job will run on
     # doc for valheim server: https://github.com/lloesche/valheim-server-docker
@@ -151,8 +151,8 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker stop valheim-server || true && docker rm valheim-server || true
-            sudo docker run -d --name valheim-server --cap-add=sys_nice --stop-timeout 120 -p 2456-2457:2456-2457/udp -v ~/valheim-server/config:/config -v ~/valheim-server/data:/opt/valheim -e SERVER_NAME="Valheim Mittelerde" -e WORLD_NAME="Mittelerde" -e SERVER_PASS="mellon" lloesche/valheim-server
+            sudo docker create --name valheim-server --cap-add=sys_nice --stop-timeout 120 -p 2456-2457:2456-2457/udp -v ~/valheim-server/config:/config -v ~/valheim-server/data:/opt/valheim -e SERVER_NAME="Valheim Mittelerde" -e WORLD_NAME="Mittelerde" -e SERVER_PASS="mellon" lloesche/valheim-server
+            sudo docker restart valheim-server
 
 
 

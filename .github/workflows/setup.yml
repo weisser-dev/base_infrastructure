@@ -115,7 +115,7 @@ jobs:
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           script: |
-            mv -vn ~/valheim/map/ ~/valheim-server/config/worlds/
+            mv -vn ~/valheim/map/* ~/valheim-server/config/worlds/
       - name: create valheim folder
         uses: appleboy/ssh-action@master
         with:

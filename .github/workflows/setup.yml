@@ -126,7 +126,16 @@ jobs:
           KEY: ${{ secrets.SSH_KEY }}
         with:
           source: "./valheim/map"
-          target: "~/valheim-server/config/worlds"
+          target: "~/valheim-server/base_map"
+      - name: move map if not exists
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSH_KEY }}
+          script: |
+            mv -vn ~/valheim-server/map/ ~/valheim-server/config/worlds/
       - name: create valheim folder
         uses: appleboy/ssh-action@master
         with:
